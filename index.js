@@ -11,9 +11,8 @@ const listElement = document.querySelector(".to-do__list");
 const formElement = document.querySelector(".to-do__form");
 const inputElement = document.querySelector(".to-do__input");
 
-
 function loadTasks() {
-	const savedTasks = localStorage.getItem('tasks');
+	const savedTasks = localStorage.getItem("tasks");
 	if (savedTasks) {
 		return JSON.parse(savedTasks);
 	} else {
@@ -31,12 +30,13 @@ function createItem(item) {
 	
 	textElement.textContent = item;
 	
-	deleteButton.addEventListner('click', function() {
+	deleteButton.addEventListener("click", function() {
 		clone.remove();
 		const items = getTasksFromDOM();
 		saveTasks(items);
   	});
-	duplicateButton.addEventListner('click', function() {
+
+	duplicateButton.addEventListener("click", function() {
 		const itemName = textElement.textContent;
 		const newItem = createItem(itemName);
 		listElement.prepend(newItem);
@@ -44,13 +44,13 @@ function createItem(item) {
 		saveTasks(items);
   	}); 
 	
-	editButton.addEventListner('click', function() {
-		textElement.setAttribute('contenteditable', 'true');
+	editButton.addEventListener("click", function() {
+		textElement.setAttribute("contenteditable", "true");
 		textElement.focus();
   	});
 	
-	textElement.addEventListner('blur', function() {
-		textElement.setAttribute('contenteditable', 'false');
+	textElement.addEventListener("blur", function() {
+		textElement.setAttribute("contenteditable", "false");
 		const items = getTasksFromDOM();
 		saveTasks(items);
   	});
@@ -69,23 +69,24 @@ function getTasksFromDOM() {
 }
 
 function saveTasks(tasks) {
-	localStorage.setItem('tasks', JSON.stringify(tasks));
+	localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-formElement.addEventListener('submit', function(evt) {
+formElement.addEventListener("submit", function(evt) {
 	evt.preventDefault(); //не происходила перегрузка
 	const textTask = inputElement.value;
-	if (textTask !== '') {
+	if (textTask !== "") {
 		const newtask = createItem(textTask);
 		listElement.prepend(newtask);
 		const items = getTasksFromDOM();
 		saveTasks(items);
-		inputElement.value = '';
+		inputElement.value = "";
 	}
+	
 });
 
 items = loadTasks();
 items.forEach((item) =>{
-	const newElement = createItem(item);
-	listElement.append(newElement);
+	const newItem = createItem(item);
+	listElement.append(newItem);
 });
